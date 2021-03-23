@@ -83,6 +83,8 @@ public:
     void setTextColor(const QColor &color);
     void setItemColor(const QColor &color);
     void setFont(const QFont &font);
+    QSize getGridSize() { return m_gridSize; }
+    void setGridSize(const QSize &size) { m_gridSize = size; }
 
 public slots:
     void setMode(Mode mode);
@@ -114,6 +116,7 @@ private:
     QColor m_TextColor;
     QColor m_ItemColor;
     QColor m_LineColor;
+    QSize m_gridSize;
 };
 //! [0]
 

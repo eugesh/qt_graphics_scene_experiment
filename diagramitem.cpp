@@ -49,8 +49,10 @@
 ****************************************************************************/
 
 #include "diagramitem.h"
+#include "diagramscene.h"
 #include "arrow.h"
 
+#include <QApplication>
 #include <QGraphicsScene>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QMenu>
@@ -149,7 +151,7 @@ void DiagramItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 //! [5]
 
 //! [6]
-QVariant DiagramItem::itemChange(GraphicsItemChange change, const QVariant &value)
+/*QVariant DiagramItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == QGraphicsItem::ItemPositionChange) {
         for (Arrow *arrow : qAsConst(arrows))
@@ -157,5 +159,26 @@ QVariant DiagramItem::itemChange(GraphicsItemChange change, const QVariant &valu
     }
 
     return value;
-}
+}*/
 //! [6]
+
+QVariant DiagramItem::itemChange(GraphicsItemChange change,
+const QVariant &value)
+{
+    if (change == ItemPositionChange && scene()) {
+        QPointF newPos = value.toPointF();
+        if(QApplication::mouseButtons() == Qt::LeftButton &&
+                qobject_cast<DiagramScene*> (scene())){
+            DiagramScene* customScene = qobject_cast<DiagramScene*> (scene());
+            // int gridSize = customScene->getGridSize();
+            int gridSize = 10;
+            qreal xV = qRound(newPos.x()/gridSize)*gridSize;
+            qreal yV = qRound(newPos.y()/gridSize)*gridSize;
+            return QPointF(xV, yV);
+        }
+        else
+            return newPos;
+    }
+    else
+        return QGraphicsItem::itemChange(change, value);
+}

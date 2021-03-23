@@ -74,8 +74,8 @@ public:
 
     void removeArrow(Arrow *arrow);
     void removeArrows();
-    DiagramType diagramType() const { return myDiagramType; }
-    QPolygonF polygon() const { return myPolygon; }
+    DiagramType diagramType() const { return m_DiagramType; }
+    QPolygonF polygon() const { return m_Polygon; }
     void addArrow(Arrow *arrow);
     QPixmap image() const;
     int type() const override { return Type; }
@@ -85,9 +85,9 @@ protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
 private:
-    DiagramType myDiagramType;
-    QPolygonF myPolygon;
-    QMenu *myContextMenu;
+    DiagramType m_DiagramType;
+    QPolygonF m_Polygon;
+    QMenu *m_ContextMenu;
     QVector<Arrow *> arrows;
 };
 //! [0]

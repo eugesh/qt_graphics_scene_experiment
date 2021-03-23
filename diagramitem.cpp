@@ -59,11 +59,11 @@
 //! [0]
 DiagramItem::DiagramItem(DiagramType diagramType, QMenu *contextMenu,
                          QGraphicsItem *parent)
-    : QGraphicsPolygonItem(parent), myDiagramType(diagramType)
-    , myContextMenu(contextMenu)
+    : QGraphicsPolygonItem(parent), m_DiagramType(diagramType)
+    , m_ContextMenu(contextMenu)
 {
     QPainterPath path;
-    switch (myDiagramType) {
+    switch (m_DiagramType) {
         case StartEnd:
             path.moveTo(200, 50);
             path.arcTo(150, 0, 50, 50, 0, 90);
@@ -71,25 +71,25 @@ DiagramItem::DiagramItem(DiagramType diagramType, QMenu *contextMenu,
             path.arcTo(50, 50, 50, 50, 180, 90);
             path.arcTo(150, 50, 50, 50, 270, 90);
             path.lineTo(200, 25);
-            myPolygon = path.toFillPolygon();
+            m_Polygon = path.toFillPolygon();
             break;
         case Conditional:
-            myPolygon << QPointF(-100, 0) << QPointF(0, 100)
+            m_Polygon << QPointF(-100, 0) << QPointF(0, 100)
                       << QPointF(100, 0) << QPointF(0, -100)
                       << QPointF(-100, 0);
             break;
         case Step:
-            myPolygon << QPointF(-100, -100) << QPointF(100, -100)
+            m_Polygon << QPointF(-100, -100) << QPointF(100, -100)
                       << QPointF(100, 100) << QPointF(-100, 100)
                       << QPointF(-100, -100);
             break;
         default:
-            myPolygon << QPointF(-120, -80) << QPointF(-70, 80)
+            m_Polygon << QPointF(-120, -80) << QPointF(-70, 80)
                       << QPointF(120, 80) << QPointF(70, -80)
                       << QPointF(-120, -80);
             break;
     }
-    setPolygon(myPolygon);
+    setPolygon(m_Polygon);
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
@@ -133,7 +133,7 @@ QPixmap DiagramItem::image() const
     QPainter painter(&pixmap);
     painter.setPen(QPen(Qt::black, 8));
     painter.translate(125, 125);
-    painter.drawPolyline(myPolygon);
+    painter.drawPolyline(m_Polygon);
 
     return pixmap;
 }
@@ -144,7 +144,7 @@ void DiagramItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     scene()->clearSelection();
     setSelected(true);
-    myContextMenu->exec(event->screenPos());
+    m_ContextMenu->exec(event->screenPos());
 }
 //! [5]
 

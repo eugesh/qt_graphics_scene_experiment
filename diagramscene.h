@@ -75,10 +75,10 @@ public:
     enum Mode { InsertItem, InsertLine, InsertText, MoveItem };
 
     explicit DiagramScene(QMenu *itemMenu, QObject *parent = nullptr);
-    QFont font() const { return myFont; }
-    QColor textColor() const { return myTextColor; }
-    QColor itemColor() const { return myItemColor; }
-    QColor lineColor() const { return myLineColor; }
+    QFont font() const { return m_Font; }
+    QColor textColor() const { return m_TextColor; }
+    QColor itemColor() const { return m_ItemColor; }
+    QColor lineColor() const { return m_LineColor; }
     void setLineColor(const QColor &color);
     void setTextColor(const QColor &color);
     void setItemColor(const QColor &color);
@@ -98,21 +98,22 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
+    void drawBackground(QPainter *painter, const QRectF &rect) override;
 
 private:
     bool isItemChange(int type) const;
 
-    DiagramItem::DiagramType myItemType;
-    QMenu *myItemMenu;
-    Mode myMode;
+    DiagramItem::DiagramType m_ItemType;
+    QMenu *m_ItemMenu;
+    Mode m_Mode;
     bool leftButtonDown;
     QPointF startPoint;
     QGraphicsLineItem *line;
-    QFont myFont;
+    QFont m_Font;
     DiagramTextItem *textItem;
-    QColor myTextColor;
-    QColor myItemColor;
-    QColor myLineColor;
+    QColor m_TextColor;
+    QColor m_ItemColor;
+    QColor m_LineColor;
 };
 //! [0]
 
